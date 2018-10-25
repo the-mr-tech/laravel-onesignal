@@ -159,7 +159,7 @@ class OneSignalClient
                 "en" => $headings
             );
         }
-        
+
         if(isset($subtitle)){
             $params['subtitle'] = array(
                 "en" => $subtitle
@@ -201,7 +201,7 @@ class OneSignalClient
                 "en" => $headings
             );
         }
-        
+
         if(isset($subtitle)){
             $params['subtitle'] = array(
                 "en" => $subtitle
@@ -243,7 +243,7 @@ class OneSignalClient
                 "en" => $headings
             );
         }
-        
+
         if(isset($subtitle)){
             $params['subtitle'] = array(
                 "en" => $subtitle
@@ -285,7 +285,7 @@ class OneSignalClient
                 "en" => $headings
             );
         }
-        
+
         if(isset($subtitle)){
             $params['subtitle'] = array(
                 "en" => $subtitle
@@ -334,6 +334,45 @@ class OneSignalClient
         $this->headers['body'] = json_encode($parameters);
         $this->headers['buttons'] = json_encode($parameters);
         $this->headers['verify'] = false;
+        return $this->post(self::ENDPOINT_NOTIFICATIONS);
+    }
+
+    /**
+     * Method to send a notification from a determinate template
+     *
+     * To use with template emails, here is a data payload suggestion:
+     * {
+     *   include_email_tokens: ['my@email.com'...],
+     *   email_subject: 'My email subject'
+     * }
+     * @param $template_id
+     * @param array $data
+     * @return bool
+     */
+    public function sendNotificationFromTemplate($template_id, array $data = [])
+    {
+        $this->requiresAuth();
+        $this->usesJSON();
+
+        if (isset($data['api_key'])) {
+            $this->headers['headers']['Authorization'] = 'Basic '.$data['api_key'];
+        }
+
+        // Make sure to use app_id
+        if (!isset($data['app_id'])) {
+            $data['app_id'] = $this->appId;
+        }
+
+        if (!is_array($data['include_email_tokens']) || count($data['include_email_tokens']) <= 0) {
+            return false;
+        }
+
+        if (!empty($template_id)) {
+            $data['template_id'] = $template_id;
+        }
+
+        $this->headers['body'] = $data;
+
         return $this->post(self::ENDPOINT_NOTIFICATIONS);
     }
 
