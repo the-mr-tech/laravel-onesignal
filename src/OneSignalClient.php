@@ -331,7 +331,7 @@ class OneSignalClient
 
         $parameters = array_merge($parameters, $this->additionalParams);
 
-        $this->headers['form_params'] = json_encode($parameters);
+        $this->headers['body'] = json_encode($parameters);
         $this->headers['buttons'] = json_encode($parameters);
         $this->headers['verify'] = false;
         return $this->post(self::ENDPOINT_NOTIFICATIONS);
@@ -373,7 +373,7 @@ class OneSignalClient
             $data['template_id'] = $template_id;
         }
 
-        $this->headers['form_params'] = json_encode($data);
+        $this->headers['body'] = json_encode($data);
 
         return $this->post(self::ENDPOINT_NOTIFICATIONS);
     }
@@ -426,7 +426,7 @@ class OneSignalClient
         $this->usesJSON();
 
         $parameters['app_id'] = $this->appId;
-        $this->headers['form_params'] = json_encode($parameters);
+        $this->headers['body'] = json_encode($parameters);
 
         $method = strtolower($method);
         return $this->{$method}($endpoint);
