@@ -373,7 +373,7 @@ class OneSignalClient
             $data['template_id'] = $template_id;
         }
 
-        $this->headers['form_params'] = $data;
+        $this->headers['form_params'] = json_encode($data);
 
         return $this->post(self::ENDPOINT_NOTIFICATIONS);
     }
