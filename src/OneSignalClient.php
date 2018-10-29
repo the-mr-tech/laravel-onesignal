@@ -105,12 +105,14 @@ class OneSignalClient
         return "APP ID: ".$this->appId." REST: ".$this->restApiKey;
     }
 
-    private function requiresAuth() {
+    public function requiresAuth() {
         $this->headers['headers']['Authorization'] = 'Basic '.$this->restApiKey;
+        return $this;
     }
 
-    private function usesJSON() {
+    public function usesJSON() {
         $this->headers['headers']['Content-Type'] = 'application/json';
+        return $this;
     }
 
     public function addParams($params = [])
