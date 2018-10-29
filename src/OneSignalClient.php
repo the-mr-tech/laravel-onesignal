@@ -363,9 +363,19 @@ class OneSignalClient
             $data['app_id'] = $this->appId;
         }
 
-        if (!array_key_exists('include_email_tokens', $data) ||
+        $hasntEmailTokens = !array_key_exists('include_email_tokens', $data) ||
             !is_array($data['include_email_tokens']) ||
-            count($data['include_email_tokens']) <= 0) {
+            count($data['include_email_tokens']) <= 0;
+
+        $hasntSegments = !array_key_exists('included_segments', $data) ||
+            !is_array($data['included_segments']) ||
+            count($data['included_segments']) <= 0;
+
+        $hasntFilters = !array_key_exists('filters', $data) ||
+            !is_array($data['filters']) ||
+            count($data['filters']) <= 0;
+
+        if ($hasntEmailTokens && $hasntSegments && $hasntFilters) {
             return false;
         }
 
